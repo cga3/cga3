@@ -30,7 +30,7 @@ struct student* creat(int n)
 		}
 		printf("输入第%d个学生的学号：", i + 1);
 		scanf("%d", &p_new->num);
-		printf("输入第%d个学生的姓名：", i + i);
+		printf("输入第%d个学生的姓名：", i + 1);
 		scanf("%s", p_new->name);
 		printf("\n");
 		//判断是否为第一个学生，第一个的指针传给head，其他的传给指针域
@@ -68,6 +68,26 @@ struct student* insert(struct stuent* head)
 	return head;
 }
 
+//删除链表指定下标为i的结点
+void delete_node(struct student* head, int index)
+{
+	int i = 0; //用来从head开始遍历寻找下标
+	struct student* p;
+	struct student* q; //p、q作为相邻结点
+	p = head;
+	while (i++ < index && p != NULL)
+	{
+		q = p;
+		p = p->next;
+	}
+	if (p != NULL)
+	{
+		q->next = p->next;
+		free(p);
+	}
+
+}
+
 //传入头指针输出链表
 void print_info(struct student* head)
 {
@@ -88,6 +108,9 @@ int main()
 	print_info(head);
 	head = insert(head);
 	printf("插入结点后：\n");
+	print_info(head);
+	printf("删除结点后：\n");
+	delete_node(head, 1);
 	print_info(head);
 	return 0;
 }
