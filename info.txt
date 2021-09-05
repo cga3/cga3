@@ -1,0 +1,93 @@
+//创建三个结点的新链表，输出这3个结点，再插入第4个结点并输出
+
+#include <stdio.h>
+#include <stdlib.h>
+
+//定义结构体
+struct student
+{
+	int num;
+	char name[20];
+	struct student* next;
+};
+
+//接收结点数创建链表，并返回头指针
+struct student* creat(int n)
+{
+	//i记录当前结点数
+	int i;
+	//定义头指针，新结构体指针，和最近建立的结构体指针
+	struct student* head, * p_new, * p_end;
+	head = NULL;
+	for (i = 0; i < n; i++)
+	{
+		//分配结点空间
+		p_new = (struct student*)malloc(sizeof(struct student));
+		if (p_new == NULL)
+		{
+			printf("第%d个结点创建失败", i + 1);
+			break;
+		}
+		printf("输入第%d个学生的学号：", i + 1);
+		scanf("%d", &p_new->num);
+		printf("输入第%d个学生的姓名：", i + i);
+		scanf("%s", p_new->name);
+		printf("\n");
+		//判断是否为第一个学生，第一个的指针传给head，其他的传给指针域
+		if (i == 0)
+		{
+			head = p_new;
+			p_end = p_new;
+		}
+		else
+		{
+			p_end->next = p_new;
+			p_new->next = NULL;
+			p_end = p_new;
+		}
+	}
+	return head;
+}
+
+//下面插入指针的位置为头指针后面，传入头指针创建函数插入函数还是返回头指针
+struct student* insert(struct stuent* head)
+{
+	struct student* p_new = (struct student*)malloc(sizeof(struct student));
+	if (p_new != NULL)
+	{
+		printf("插入新的结点：\n");
+		scanf("%d", &p_new->num);
+		scanf("%s", p_new->name);
+		p_new->next = head;
+		head = p_new;
+	}
+	else
+	{
+		printf("新结点内存空间分配失败！");
+	}
+	return head;
+}
+
+//传入头指针输出链表
+void print_info(struct student* head)
+{
+	int count = 1; // 记录输出学生数
+	struct student* p = head;
+	while (p != NULL)
+	{
+		printf("第%d个学生信息 == 学号：%d, 姓名：%s\n", count++, p->num, p->name);
+		p = p->next;
+	}
+}
+
+int main()
+{
+	printf("创建3个结点的链表：\n");
+	struct student* head = creat(3);
+	printf("插入结点前：\n");
+	print_info(head);
+	head = insert(head);
+	printf("插入结点后：\n");
+	print_info(head);
+	return 0;
+}
